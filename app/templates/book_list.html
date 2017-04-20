@@ -5,37 +5,28 @@
 		<div class="row">
 			<table class="table table-hover table-bordered">
 				<tr>
-					<th>ISBN</th>
-					<th>类型</th>
 					<th>书名</th>
+					<th>类型</th>
 					<th>作者</th>
 					<th>出版社</th>
+					<th>ISBN</th>
 					<th>售价</th>
-					<th>标签</th>
 					<th>操作</th>
 				</tr>
-				{% for book in books %}
+				{% for book in items %}
 					<tr>
-						<td>{{ book['book_id'] }}</td>
-						<td>{{ book['category_name'] }}</td>
-						<td>{{ book['book_title'] }}</td>
-						<td>{{ book['book_author'] }}</td>
-						<td>{{ book['book_publisher'] }}</td>
-						<td>￥{{ book['book_price'] }}</td>
-						<td>{% if book['book_markdown'] == 1 %}
-							<span class="label label-success">特价</span>
-						{% endif %}
-							{% if book['book_add'] == 1 %}
-								<span class="label label-info">加印</span>
-							{% endif %}</td>
+						<td>{{ book.title }}</td>
+						<td>{{ book.category.name }}</td>
+						<td>{{ book.author }}</td>
+						<td>{{ book.publisher }}</td>
+						<td>{{ book.ISBN }}</td>
+						<td>￥{{ book.price }}</td>
 						<td>
-							<a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{{ book['book_id'] }}"
+							<a href="{{ url_for('book.book_release', book_id=book.id) }}" class="btn btn-primary btn-sm"
 							   title="修改">
-								<i class="fa fa-pencil fa-fw" aria-hidden="true"></i>修改
-							</a>
-							<a href="{{ url_for('delate_book',book_id=book['book_id']) }}" class="btn btn-danger btn-sm" title="删除"><i
-								class="fa fa-trash-o fa-fw" aria-hidden="true"></i>删除
-							</a>
+								<i class="fa fa-pencil fa-fw" aria-hidden="true"></i>修改 </a>
+							<a href="{{ url_for('book.book_delate',book_id=book.id) }}" class="btn btn-danger btn-sm" title="删除">
+								<i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>删除	</a>
 						</td>
 					</tr>
 				{% endfor %}
@@ -44,7 +35,7 @@
 	</div>
 	<!-- Modal -->
 	{% for book in books %}
-		<div class="modal fade" id="{{ book['book_id'] }}" tabindex="-1" role="dialog">
+		<div class="modal fade" id="{{ book.id }}" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -53,11 +44,11 @@
 					<h5 class="modal-title" id="myModalLabel">图书详情</h5>
 				</div>
 				<div class="modal-body">
-					<form action="{{ url_for('book_post') }}" method="post" class="form-horizontal">
+					<form action="{{ url_for('book.book_list') }}" method="post" class="form-horizontal">
 						<div class="form-group">
 							<label for="title" class="col-md-2 control-label">书名</label>
 							<div class="col-md-6">
-								<input type="text" id="name" name="name" class="form-control" value="{{ book['book_title'] }}">
+								<input type="text" id="name" name="name" class="form-control" value="{{ book.title }}">
 							</div>
 						</div>
 						<div class="form-group">
@@ -100,8 +91,8 @@
 							<label for="category" class="col-md-2 control-label">分类</label>
 							<div class="col-md-4">
 								<select class="form-control" name="category" id="category">
-									{% for category in category %}
-										<option value="{{ category['category_id'] }}">{{ category['category_name'] }}</option>
+									{% for category in items %}
+										<option value="{{ category.id }}">{{ category.name }}</option>
 									{% endfor %}
 								</select>
 							</div>

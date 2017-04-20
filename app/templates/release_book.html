@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block style %}
+	{{ super() }}
+	#commit {
+	margin: 10px
+	}
+{% endblock %}
+
+{% block main_content %}
+	<div class="container">
+		<form action="{{ url_for('book.book_release', book_id=book_id) }}" method="post" enctype="multipart/form-data"
+		      class="form-horizontal">
+			{{ form.hidden_tag() }}
+			<div class="form-group">
+				{{ form.title.label(class='col-md-2 control-label') }}
+				<div class="col-md-3">
+					{{ form.title(class="form-control") }}
+				</div>
+				<div class="text-danger">
+					{% if form.title.errors %}
+						{% for foo in form.title.errors %}
+							{{ foo }}
+						{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.author.label(class="col-md-2 control-label") }}
+				<div class="col-md-3">
+					{{ form.author(class="form-control") }}
+				</div>
+				<div class="text-danger">
+					{% if form.author.errors %}
+						{% for foo in form.author.errors %}
+							{{ foo }}
+						{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.publisher.label(class="col-md-2 control-label") }}
+				<div class="col-md-3">
+					{{ form.publisher(class="form-control") }}
+				</div>
+				<div class="text-danger">
+					{% if form.publisher.errors %}
+						{% for foo in form.publisher.errors %}
+							{{ foo }}
+						{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.category_id.label(class="col-md-2 control-label") }}
+				<div class="col-md-2">
+					{{ form.category_id(class="form-control") }}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.ISBN.label(class="col-md-2 control-label") }}
+				<div class="col-md-2">
+					{{ form.ISBN(class="form-control") }}
+				</div>
+				<div class="text-danger">
+					{% if form.ISBN.errors %}
+						{% for foo in form.ISBN.errors %}
+							{{ foo }}
+						{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.price.label(class="col-md-2 control-label") }}
+				<div class="col-md-2">
+					{{ form.price(class="form-control") }}
+				</div>
+				<div class="text-danger">
+					{% if form.price.errors %}
+						{% for foo in form.price.errors %}
+							{{ foo }}
+						{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.cover.label(class="col-md-2 control-label") }}
+				<div class="col-md-2">
+					{{ form.cover }}
+				</div>
+			</div>
+
+			<div class="col-md-offset-2">
+				<input type="submit" class="btn btn-primary" id="commit" value="发布">
+				<input type="reset" class="btn btn-default" value="重置">
+			</div>
+
+		</form>
+	</div>
+{% endblock %}

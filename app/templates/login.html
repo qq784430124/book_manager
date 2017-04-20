@@ -37,7 +37,7 @@
 					<h4 style="color: #fff">管理员登录</h4>
 				</div>
 				<div class="panel-body">
-					<form action="{{ url_for('login') }}" method="post">
+					<form action="{{ url_for('login.login') }}" method="post">
 						{% for msg in get_flashed_messages() %}
 							<div class="alert alert-danger">
 								<a href="" class="close" data-dismiss="alert">&times;</a>

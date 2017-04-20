@@ -5,7 +5,7 @@
 	<meta name="viewport"
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>{% if title %}{{ title }}{% endif %}-图书管理系统</title>
+	<title>图书管理系统</title>
 	<link href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet"
@@ -14,6 +14,11 @@
 </head>
 
 <style>
+	{% block style %}
+	{% endblock %}
+	.page-header {
+		margin-top: 10%
+	}
 	.navbar-nav {
 		margin: auto;
 	}
@@ -28,7 +33,7 @@
 	<div class="row">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-header">
-				<a href="{{ url_for('index') }}" class="navbar-brand">
+				<a href="{{ url_for('book.book_list') }}" class="navbar-brand">
 					<i class="fa fa-book fa-lg" aria-hidden="true"></i> 主页
 				</a>
 				<button data-target="#bar" data-toggle="collapse" class="navbar-toggle">
@@ -40,8 +45,8 @@
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">图书管理<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="{{ url_for('book_list') }}">图书列表</a></li>
-							<li><a href="{{ url_for('release_book') }}">发布图书</a></li>
+							<li><a href="{{ url_for('book.book_list') }}">图书列表</a></li>
+							<li><a href="{{ url_for('book.book_release') }}">发布图书</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">
@@ -53,36 +58,38 @@
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<form action="#" class="navbar-form navbar-left">
+					<form action="#" method="get" class="navbar-form navbar-left">
 						<div class="form-group">
-							<input type="text" class="form-control" name="key" id="key" placeholder="图书标题搜索"}} >
-							<button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw" aria-hidden="true"></i></button>
+							<input type="text" class="form-control" name="key" id="key" placeholder="图书标题搜索" }}>
+							<button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw" aria-hidden="true"></i>
+							</button>
 						</div>
 					</form>
 					<li><a href="">操作日志</a></li>
 					<li class="dropdown">
-						<a href="" class="dropdown-toggle" data-toggle="dropdown">{{ request.cookies.get('username', None) }}<span class="caret"></span></a>
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">{{ request.cookies.get('username', None) }}<span
+							class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="">个人信息</a></li>
-							<li><a href="{{ url_for('logout') }}">退出登录</a></li>
+							<li><a href="{{ url_for('login.logout') }}">退出登录</a></li>
 						</ul>
 					</li>
 				</ul>
 			</div>
 		</nav>
 	</div>
+</div>
 	{#导航条结束#}
+<div class="container">
 	<div class="page-header">
-		<div class="row">
 			<h3>图书管理系统{% if title %}
 				<small>{{ title }}</small>{% endif %}</h3>
-		</div>
 	</div>
 	<div class="row">
 		<ul class="breadcrumb">
 			<li><a href="#">首页</a></li>
 			<li><a href="#">图书管理</a></li>
-			<li>{{ title }}</li>
+			<li></li>
 		</ul>
 	</div>
 </div>
@@ -91,9 +98,33 @@
 
 {% endblock %}
 <div class="container">
-	<div class="row text-center">
-		<div class="well">&copy;2017.3.21版权所有</div>
+	<div class="row">
+		<div class="panel-footer ">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-1">
+					<div class="h4">关于</div>
+					<p>一个自己练手用的项目，</p>
+					<p>前端使用Bootstrap,</p>
+					<p>后台Flask，</p>
+					<p>个人博客地址</p>
+				</div>
+				<div class="col-md-4">
+					<div class="h4">个人信息</div>
+					<ul class="list-unstyled">
+						<li><p>Name: 何振衡</p></li>
+						<li><p>Location: Hengyang, Hunan, China</p></li>
+						<li><p>Email: <a href="mailto:784430124@qq.com">784430124@qq.com</a></p></li>
+						<li><p>Github: <a href="https://github.com/qq784430124">ClickMe</a></p></li>
+					</ul>
+				</div>
+				<div class="col-md-2">
+					<div class="h4">扫一扫加微信</div>
+					<img class="img-responsive" src="/static/image/weixinQR.png">
+				</div>
+			</div>
+		</div>
 	</div>
+
 </div>
 </body>
 
