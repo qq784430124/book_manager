@@ -8,6 +8,8 @@ class Config:
 	SQALCHEMY_COMMIT_ON_TEARDOWN = True
 	FLASK_ADMIN = os.environ.get('FLASK_ADMIN')
 
+	IMAGE_FOLDER = os.path.join(basedir, r'\app\static\cover')
+	UPLOAD_FOLDER = IMAGE_FOLDER
 	@staticmethod
 	def init_app(app):
 		pass
@@ -15,4 +17,29 @@ class Config:
 
 class DevelopmentConfig(Config):
 	DEBUG = True
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL')
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	SQLALCHEMY_ECHO = True
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+		'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+
+class TestingConfig(Config):
+	DEBUG = True
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	SQLALCHEMY_ECHO = True
+	SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
+		'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+
+
+class ProductionConfig(Config):
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+		'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+
+
+config = {
+	'development': DevelopmentConfig,
+	'testing': TestingConfig,
+	'production': ProductionConfig,
+
+	'default': DevelopmentConfig
+}

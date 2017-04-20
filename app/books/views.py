@@ -3,9 +3,10 @@ import os
 from flask import request, render_template, \
 	redirect, url_for, make_response, flash, current_app
 from flask.views import MethodView
-from app.models import *
+from .. import db
+from ..models import User, Role, Book, Category
 from .forms import *
-from werkzeug.utils import secure_filename
+
 
 class LogoutView(MethodView):
 	def get(self):
