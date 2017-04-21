@@ -5,7 +5,7 @@ from flask import request, render_template, \
 from flask.views import MethodView
 from .. import db
 from ..models import User, Role, Book, Category
-from .forms import *
+from .forms import UserForm
 
 
 class LogoutView(MethodView):
@@ -85,7 +85,7 @@ class BookReleaseView(MethodView):
 			cover = request.files.get('cover', None)
 			if cover and BookReleaseView.allowed_image(cover.filename):
 				covername = form.title.data + '-' + datetime.now().strftime("%Y%m%d%H%M%S") + os.path.splitext(cover.filename)[1]
-				cover.save(os.path.join(current_app.config['UPLOAD_FOLDER'], covername))
+				cover.save(os.path.join(current_app.config['COVER_FOLDER'], covername))
 				form.cover.data = covername
 			# 将接收到的表单数据填充到sqlalchemy实例中
 			form.populate_obj(book)
@@ -94,4 +94,5 @@ class BookReleaseView(MethodView):
 				db.session.add(book)
 			db.session.commit()
 			return redirect(url_for('book.book_list'))
-		return render_template('release_book.html', form=form)
+		return render_template('release_book.html', form=form, book_id=book_id)
+

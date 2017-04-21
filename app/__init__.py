@@ -1,10 +1,9 @@
 from flask import Flask
-from flask_migrate import Migrate, MigrateCommand, init, migrate
-from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 
 db = SQLAlchemy()
+
 
 def creat_app(config_name):
 	app = Flask(__name__)
@@ -17,5 +16,3 @@ def creat_app(config_name):
 	app.register_blueprint(bp_book, url_prefix='/book')
 
 	return app
-
-
