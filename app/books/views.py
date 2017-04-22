@@ -8,38 +8,38 @@ from ..models import User, Role, Book, Category
 from .forms import UserForm
 
 
-class LogoutView(MethodView):
-	def get(self):
-		resp = make_response(redirect(url_for('login.login')))
-		resp.set_cookie('username', expires=datetime.now() + timedelta(days=-1))
-		return resp
-
-
-class LoginView(MethodView):
-	def get(self):
-		return render_template('login.html')
-
-	def post(self):
-		if request.cookies.get('username', None):
-			return redirect(url_for('book.book_list'))
-		username = request.form.get('username', None)
-		password = request.form.get('password', None)
-		user = db.session.query(User).filter_by(username=username).first()
-		if user and username == user.username:
-			if password and password == user.password:
-				if request.form.get('cookies', None):
-					resp = make_response(redirect(url_for('book.book_list')))
-					resp.set_cookie('username', username, expires=datetime.now() + timedelta(days=7))
-					return resp
-				else:
-					resp = make_response(redirect(url_for('book.book_list')))
-					resp.set_cookie('username', username)
-					return resp
-			else:
-				flash('密码错误')
-		else:
-			flash('用户名不存在')
-		return redirect(url_for('login.login'))
+# class LogoutView(MethodView):
+# 	def get(self):
+# 		resp = make_response(redirect(url_for('login.login')))
+# 		resp.set_cookie('username', expires=datetime.now() + timedelta(days=-1))
+# 		return resp
+#
+#
+# class LoginView(MethodView):
+# 	def get(self):
+# 		return render_template('login.html')
+#
+# 	def post(self):
+# 		if request.cookies.get('username', None):
+# 			return redirect(url_for('book.book_list'))
+# 		username = request.form.get('username', None)
+# 		password = request.form.get('password', None)
+# 		user = db.session.query(User).filter_by(username=username).first()
+# 		if user and username == user.username:
+# 			if password and password == user.password:
+# 				if request.form.get('cookies', None):
+# 					resp = make_response(redirect(url_for('book.book_list')))
+# 					resp.set_cookie('username', username, expires=datetime.now() + timedelta(days=7))
+# 					return resp
+# 				else:
+# 					resp = make_response(redirect(url_for('book.book_list')))
+# 					resp.set_cookie('username', username)
+# 					return resp
+# 			else:
+# 				flash('密码错误')
+# 		else:
+# 			flash('用户名不存在')
+# 		return redirect(url_for('login.login'))
 
 
 class BookListView(MethodView):

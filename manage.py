@@ -10,7 +10,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-	return dict(User=User, Role=Role, Book=Book, Category=Category)
+	return dict(app=app, db=db, User=User, Role=Role, Book=Book, Category=Category)
 
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
