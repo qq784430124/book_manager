@@ -3,7 +3,7 @@ from wtforms.validators import *
 import wtforms
 
 
-class UserForm(FlaskForm):
+class BookForm(FlaskForm):
 	title = wtforms.StringField('书名', [DataRequired('请输入标题')])
 	publisher = wtforms.StringField('出版社', [DataRequired('请输入出版社')])
 	author = wtforms.StringField('作者', [DataRequired('请输入作者')])

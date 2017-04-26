@@ -1,11 +1,12 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import os
 from flask import request, render_template, \
-	redirect, url_for, make_response, flash, current_app
+	redirect, url_for, current_app
 from flask.views import MethodView
 from .. import db
-from ..models import User, Role, Book, Category
-from .forms import UserForm
+from ..models import Book, Category
+from .forms import BookForm
+from flask_login import login_required
 
 
 # class LogoutView(MethodView):
@@ -43,14 +44,15 @@ from .forms import UserForm
 
 
 class BookListView(MethodView):
+	decorators = [login_required]
 	def get(self):
-		if request.cookies.get('username'):
-			key = request.args.get('key', '')
-			items = Book.query.filter(Book.title.like('%{}%'.format(key))).all()
-			return render_template('book_list.html', items=items)
+		key = request.args.get('key', '')
+		items = Book.query.filter(Book.title.like('%{}%'.format(key))).all()
+		return render_template('book_list.html', items=items)
 
 
 class BookDelateView(MethodView):
+	decorators = [login_required]
 	def get(self):
 		book = Book.query.filter_by(id=request.args.get('book_id')).first()
 		db.session.delete(book)
@@ -59,12 +61,13 @@ class BookDelateView(MethodView):
 
 
 class BookReleaseView(MethodView):
+	decorators = [login_required]
 	def get(self):
 		# 判断是否存在地址栏参数book_id，是则为修改，否则为新建
 		book_id = request.args.get('book_id', None)
 		book = Book.query.filter_by(id=book_id).first() if book_id else Book()
 		# 将数据填充到前台表单的输入框,参数obj接收一个sqlalchemy实例
-		form = UserForm(obj=book)
+		form = BookForm(obj=book)
 		form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
 		return render_template('release_book.html', form=form, book_id=book_id)
 
@@ -77,14 +80,15 @@ class BookReleaseView(MethodView):
 	def post(self):
 		# 从前台表单中接收数据
 		book_id = request.args.get('book_id', None)
-		form = UserForm(request.form)
+		form = BookForm(request.form)
 		form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
 		if form.validate_on_submit():
 			book = Book.query.filter_by(id=book_id).first() if book_id else Book()
 			# 处理文件上传
 			cover = request.files.get('cover', None)
 			if cover and BookReleaseView.allowed_image(cover.filename):
-				covername = form.title.data + '-' + datetime.now().strftime("%Y%m%d%H%M%S") + os.path.splitext(cover.filename)[1]
+				covername = form.title.data + '-' + datetime.now().strftime("%Y%m%d%H%M%S") + \
+				            os.path.splitext(cover.filename)[1]
 				cover.save(os.path.join(current_app.config['COVER_FOLDER'], covername))
 				form.cover.data = covername
 			# 将接收到的表单数据填充到sqlalchemy实例中
@@ -95,4 +99,3 @@ class BookReleaseView(MethodView):
 			db.session.commit()
 			return redirect(url_for('book.book_list'))
 		return render_template('release_book.html', form=form, book_id=book_id)
-
