@@ -47,8 +47,9 @@ class BookListView(MethodView):
 	decorators = [login_required]
 	def get(self):
 		key = request.args.get('key', '')
-		items = Book.query.filter(Book.title.like('%{}%'.format(key))).all()
-		return render_template('book_list.html', items=items)
+		page = request.args.get('page', 1, int)
+		items = Book.query.filter(Book.title.like('%{}%'.format(key))).paginate(page, per_page=10)
+		return render_template('book/book_list.html', pagination=items)
 
 
 class BookDelateView(MethodView):
@@ -69,7 +70,7 @@ class BookReleaseView(MethodView):
 		# 将数据填充到前台表单的输入框,参数obj接收一个sqlalchemy实例
 		form = BookForm(obj=book)
 		form.category_id.choices = [(c.id, c.name) for c in Category.query.all()]
-		return render_template('release_book.html', form=form, book_id=book_id)
+		return render_template('book/release_book.html', form=form, book_id=book_id)
 
 	@staticmethod
 	# 图片验证
@@ -98,4 +99,4 @@ class BookReleaseView(MethodView):
 				db.session.add(book)
 			db.session.commit()
 			return redirect(url_for('book.book_list'))
-		return render_template('release_book.html', form=form, book_id=book_id)
+		return render_template('book/release_book.html', form=form, book_id=book_id)

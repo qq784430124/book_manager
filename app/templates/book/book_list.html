@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% import './pagination.html' as _macro %}
 
 {% block main_content %}
 	<div class="container">
@@ -13,7 +14,7 @@
 					<th>售价</th>
 					<th>操作</th>
 				</tr>
-				{% for book in items %}
+				{% for book in pagination.items %}
 					<tr>
 						<td>{{ book.title }}</td>
 						<td>{{ book.category.name }}</td>
@@ -26,11 +27,12 @@
 							   title="修改">
 								<i class="fa fa-pencil fa-fw" aria-hidden="true"></i>修改 </a>
 							<a href="{{ url_for('book.book_delate',book_id=book.id) }}" class="btn btn-danger btn-sm" title="删除">
-								<i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>删除	</a>
+								<i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>删除 </a>
 						</td>
 					</tr>
 				{% endfor %}
 			</table>
 		</div>
+		{{ _macro.render_pagination(pagination, 'book.book_list') }}
 	</div>
 {% endblock %}

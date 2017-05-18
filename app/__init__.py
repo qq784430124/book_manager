@@ -23,7 +23,9 @@ def creat_app(config_name):
 
 	from .books import bp_book, errors
 	from .auth import bp_auth
+	from .articles import bp_article
 	app.register_blueprint(bp_auth, url_prefix='/auth')
 	app.register_blueprint(bp_book, url_prefix='/book')
+	app.register_blueprint(bp_article, url_prefix='/article')
 
 	return app

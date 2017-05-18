@@ -2,6 +2,7 @@ from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 
 @login_manager.user_loader
@@ -70,3 +71,17 @@ class Category(db.Model):
 
 	def __repr__(self):
 		return '<分类：{}>'.format(self.name)
+
+
+class Article(db.Model):
+	__tablename__ = 'articles'
+
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.Text)
+	body = db.Column(db.Text)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+	author_id = db.Column(db.Integer, db.ForeignKey(User.id))
+	author = db.relationship('User', backref=db.backref('articles', lazy='dynamic'))
+
+	def __repr__(self):
+		return '<文章：{}>'.format(self.title)

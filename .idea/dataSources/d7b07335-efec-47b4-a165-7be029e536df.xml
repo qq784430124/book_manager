@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="data-dev.sqlite">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.1">
+    <root id="1"/>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <table id="3" parent="2" name="alembic_version"/>
+    <table id="4" parent="2" name="articles"/>
+    <table id="5" parent="2" name="books"/>
+    <table id="6" parent="2" name="categorys"/>
+    <table id="7" parent="2" name="roles"/>
+    <table id="8" parent="2" name="sqlite_master"/>
+    <table id="9" parent="2" name="users"/>
+    <column id="10" parent="3" name="version_num">
+      <DataType>VARCHAR(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="11" parent="3" name="sqlite_autoindex_alembic_version_1">
+      <ColNames>version_num</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="12" parent="3" name="alembic_version_pkc">
+      <ColNames>version_num</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_alembic_version_1</UnderlyingIndexName>
+    </key>
+    <column id="13" parent="4" name="id">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="14" parent="4" name="title">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="15" parent="4" name="body">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="16" parent="4" name="timestamp">
+      <Position>3</Position>
+      <DataType>DATETIME|0</DataType>
+    </column>
+    <column id="17" parent="4" name="author_id">
+      <Position>4</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <index id="18" parent="4" name="ix_articles_timestamp">
+      <ColNames>timestamp</ColNames>
+    </index>
+    <key id="19" parent="4">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="20" parent="4">
+      <ColNames>author_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="21" parent="5" name="id">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="22" parent="5" name="title">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="23" parent="5" name="publisher">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="24" parent="5" name="author">
+      <Position>3</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="25" parent="5" name="price">
+      <Position>4</Position>
+      <DataType>FLOAT|0</DataType>
+    </column>
+    <column id="26" parent="5" name="cover">
+      <Position>5</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="27" parent="5" name="ISBN">
+      <Position>6</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="28" parent="5" name="category_id">
+      <Position>7</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <key id="29" parent="5">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="30" parent="5">
+      <ColNames>category_id</ColNames>
+      <RefTableName>categorys</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="31" parent="6" name="id">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="6" name="name">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <index id="33" parent="6" name="sqlite_autoindex_categorys_1">
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="34" parent="6">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="35" parent="6">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_categorys_1</UnderlyingIndexName>
+    </key>
+    <column id="36" parent="7" name="id">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="37" parent="7" name="name">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <index id="38" parent="7" name="sqlite_autoindex_roles_1">
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="39" parent="7">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="40" parent="7">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_roles_1</UnderlyingIndexName>
+    </key>
+    <column id="41" parent="8" name="type">
+      <DataType>text|0</DataType>
+    </column>
+    <column id="42" parent="8" name="name">
+      <Position>1</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="43" parent="8" name="tbl_name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="44" parent="8" name="rootpage">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+    </column>
+    <column id="45" parent="8" name="sql">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="46" parent="9" name="id">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="9" name="username">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="48" parent="9" name="password_hash">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="49" parent="9" name="role_id">
+      <Position>3</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <index id="50" parent="9" name="sqlite_autoindex_users_1">
+      <ColNames>username</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="51" parent="9">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="52" parent="9">
+      <ColNames>username</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_users_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="53" parent="9">
+      <ColNames>role_id</ColNames>
+      <RefTableName>roles</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
